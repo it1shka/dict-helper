@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components'
+import AppContainer from "./components/AppContainer"
+import AppBar from './components/AppBar'
+import WordList from './components/WordLIst'
+import AddButton from './components/AddButton'
+import AddWordForm from './components/AddWordForm'
+import { RootState } from './store'
+import { useSelector } from 'react-redux'
+import TrainingWidget from './components/TrainingWidget'
 
-function App() {
+const App = () => {
+  const {is_adding, is_training} = useSelector((state: RootState) => {
+    return state.app
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+    {is_adding && <AddWordForm />}
+    {is_training && <TrainingWidget />}
+    <AppContainer width={560} height={720}>
+      <LayoutContainer>
+        <AppBar />
+        <WordList />
+        <AddButton />
+      </LayoutContainer>
+    </AppContainer>
+    </>
+  )
 }
 
-export default App;
+const LayoutContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 7px;
+  box-shadow: var(--shadow-color) 0px 0px 4px;
+`
+
+export default App
