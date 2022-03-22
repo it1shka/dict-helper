@@ -50,11 +50,14 @@ const WordElement = ({word}: {word: Word}) => {
     }
     dispatch(removeWord(word.id))
   }
+  const isTraining = useSelector((state: RootState) => {
+    return state.app.is_training
+  })
 
   return (
     <WordContainer onClick={handleRemove}>
       <p>{word.key}</p>
-      <p>{word.value}</p>
+      <p>{isTraining ? '*'.repeat(word.value.length) : word.value}</p>
     </WordContainer>
   )
 }
